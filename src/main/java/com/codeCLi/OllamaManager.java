@@ -1,5 +1,7 @@
 package com.codeCLi;
 
+import tools.jackson.core.JsonToken;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -11,9 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 public class OllamaManager {
-    Map<Integer, Model> models = new HashMap<>();
-    OllamaService ollamaService = new OllamaService();
-    CliRender render = new CliRender();
+    private final Map<Integer, Model> models = new HashMap<>();
+    private final OllamaService ollamaService = new OllamaService();
+    private boolean shouldPlan = false;
 
     public OllamaManager() {
         initModels(OllamaSettings.getInstance());
@@ -65,10 +67,18 @@ public class OllamaManager {
     }
 
     public void renderResponse(String response){
+        System.out.println();
         String coloredResponse = CliRender.renderResponse(response);
         System.out.println(coloredResponse);
     }
     public int getNumberOfModels(){
         return models.size();
+    }
+
+    public void switchShouldPlan(){
+        this.shouldPlan = !this.shouldPlan;
+    }
+    public boolean shouldPlan(){
+        return shouldPlan;
     }
 }

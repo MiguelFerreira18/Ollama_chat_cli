@@ -30,14 +30,6 @@ public class Main {
                 model = selectModel(manager);
             }
         } while (true);
-
-
-        //manager.prompt(model,);
-        //ModelResponse response = manager.prompt(new Prompt(manager.models.get(4).name(), "Write me an hello world in python", false));
-
-        //System.out.println("Model: " + response.model());
-        //System.out.println("Response: " + response.response());
-        //manager.renderResponse(response.response());
     }
 
     public static void printMenu(OllamaManager manager) {
@@ -83,8 +75,14 @@ public class Main {
                     clear();
                     return true;
                 }
-                case PLAN ->
-                        System.out.println("Plan mode not implemented yet"); // To give context into the AI to plan stuff (Still going to need to learn what on earth this can be useful for)
+                case PLAN -> {
+                    manager.switchShouldPlan();
+                    if (manager.shouldPlan()){
+                        System.out.println("The model is on planning mode");
+                    }else{
+                        System.out.println("The model is on normal mode");
+                    }
+                }
                 case SAVE_HISTORY ->
                         System.out.println("Not implemented yet"); // To save the history of the current chat, always on runtime, no db
                 case EXIT -> System.exit(68);
@@ -97,6 +95,12 @@ public class Main {
     }
 
     public static void renderResponse(OllamaManager manager, int model, String message) {
+        if (manager.shouldPlan()){
+            message = "Your task is to produce a plan only — do not execute or answer the request directly.\n" +
+                    "Break down the following into clear, actionable steps a person can follow:\n\n" +
+                    message;
+        }
+
         ModelResponse modelResponse = manager.prompt(model, message);
         manager.renderResponse(modelResponse.response());
     }
