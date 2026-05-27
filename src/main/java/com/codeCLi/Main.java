@@ -13,7 +13,7 @@ public class Main {
         if (args.length > 0) {
             port = Integer.parseInt(args[0].trim().split("=")[1]);
         } else {
-            System.out.println("Not port was provided, assuming default port: 11434");
+            System.out.println("Not port was provided, assuming default port: 11434\n");
         }
 
         OllamaSettings.getInstance(port);
@@ -28,17 +28,20 @@ public class Main {
         do {
             if (inputMessage(manager, model)) {
                 model = selectModel(manager);
+                if (model == -1) {
+                    clear();
+                    System.exit(68);
+                }
             }
         } while (true);
     }
 
     public static void printMenu(OllamaManager manager) {
         manager.printAvailableModels();
-        System.out.println("-1 - Return");
+        System.out.println("(-1) - Return");
     }
 
     public static int selectModel(OllamaManager manager) {
-        System.out.println("Number of models" + manager.getNumberOfModels());
         int input;
 
         do {
@@ -54,7 +57,7 @@ public class Main {
     }
 
     public static void clear() {
-        System.out.print("\033[H\033[2J");
+        System.out.print("\033[H\033[2J\033[3A");
         System.out.flush();
     }
 
@@ -79,17 +82,17 @@ public class Main {
                 case PLAN -> {
                     manager.switchShouldPlan();
                     if (manager.shouldPlan()) {
-                        System.out.println("The model is on planning mode");
+                        System.out.println("\nThe model is on planning mode");
                     } else {
-                        System.out.println("The model is on normal mode");
+                        System.out.println("\nThe model is on normal mode");
                     }
                 }
                 case SAVE_HISTORY -> {
                     manager.switchShouldSaveChatHistory();
                     if (manager.shouldSaveChatHistory()) {
-                        System.out.println("The chat history is being saved");
+                        System.out.println("\nThe chat history is being saved");
                     } else {
-                        System.out.println("the chat history stopped being saved");
+                        System.out.println("\nThe chat history stopped being saved");
                     }
                 }
                 case EXIT -> System.exit(68);
@@ -103,13 +106,13 @@ public class Main {
 
     public static void renderResponse(OllamaManager manager, int model, String message) {
         if (manager.shouldPlan()) {
-            message = "Your task is to produce a plan only — do not execute or answer the request directly.\n" +
+            message = "You are in planning mode, Your task is to produce a plan only — do not execute or answer the request directly.\n" +
                     "Break down the following into clear, actionable steps a person can follow:\n\n" +
                     message;
         }
 
         ModelResponse modelResponse = manager.prompt(model, message);
-        if (manager.shouldSaveChatHistory()){
+        if (manager.shouldSaveChatHistory()) {
             manager.addChatHistory(new ChatHistory(message, modelResponse.response()));
         }
         manager.renderResponse(modelResponse.response());

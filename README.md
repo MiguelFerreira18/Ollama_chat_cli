@@ -30,18 +30,19 @@ and prompt it with any question, if you are done with your "prompting" session, 
 tool, on the other hand, if you are not happy with the model, you can just call the **/model** command to switch to
 another model of your choosing.
 
+Finally, it has a planning command via **/plan**, this injects context into the llm to know that the output should
+always be a plan, if you have a better prompt for this case, i would highly recommend to contribute, as i know the one i
+developed is flawed. Moreover, the **/save_history** was also implemented, and limited to 20 messages in total, this was
+done using the deque dst, this was mainly to prevent the context to grow outside its limit, even now, the limit could
+be breached using a malicious prompt.
+
+Whenever **/plan** or **/save_history** are called and the model is changed, the settings will restore to their
+defaults,
+meaning that in the new model you select, that chat history and planning mode are disabled.
+
 ## Planned features
 
-There are two commands that I want implemented, the **/plan** command, which gives context into the llm into creating a
-plan based on your prompt to it. The second command that I want to implement is a context history command like
-**/save_history**, this won't save any of the chats, but instead will save, for the remaining of the current open chat
-, the conversations. So if the user is talking to llm A and activates that command, all the chats with llm A are saved
-until you either, exit the program, or switch to another llm. This is intentional, if you want a tool actually save the
-chats and their context, I suggest you to do one of two things, fork this and implement it your self, if the
-implementation makes sense, I can merge I without a problem, if that is not ok, you can just use open web ui or any
-other tool out there, which is probably advisable.
-
-Another feature, is integration with Ollama cloud or any other AI API.
+integration with Ollama cloud or any other AI API.
 
 Finally, I was thinking of giving mcp tools for ollama, but currently it doesn't seem that any llm from Ollama can do
 things like Gemini cli and Claude code do, or I am totally wrong and there are already some. Either way, I am a bit
@@ -49,6 +50,25 @@ skeptical of doing something like this, specifically because of security reasons
 stops it from doing anything wrong and be totally happy about it. So this will remain as food for thought for now.
 
 ## Architecture (On standby)
+
+## How to run
+
+```bash
+mvn clean install
+mvn package
+mvn exec:java -Dexe.mainClass="com.codeCLi.Main"
+```
+
+or
+
+```bash
+mvn clean package
+java -jar target/Ollama_chat_tool-1.0-SNAPSHOT.js
+```
+
+Because I put shade to bundle the jar with the dependencies the second option will create two jars, execute the one with
+just the name of the repo **without** the **original** part, which is the one that is on the command. You can use the
+original, but you will have to install the dependencies your self.
 
 ## Contributing
 

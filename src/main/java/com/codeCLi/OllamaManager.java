@@ -47,7 +47,7 @@ public class OllamaManager {
 
     public void printAvailableModels() {
         for (Map.Entry<Integer, Model> entry : models.entrySet()) {
-            System.out.println(entry.getKey() + " - " + entry.getValue().name());
+            System.out.println("("+entry.getKey() + ") - " + entry.getValue().name());
         }
     }
 
