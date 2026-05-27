@@ -15,7 +15,7 @@ public enum Command {
     }
 
 
-    public static Optional<Command> parse(String input){
+    public static Optional<Command> parse(String input) {
         String[] tokens = input.trim().split("\\s+");
         if (tokens.length <= 1) {
             for (String token : tokens) {

@@ -73,18 +73,25 @@ public class Main {
             switch (cmd.get()) {
                 case MODEL -> {
                     clear();
+                    manager.resetDefaults();
                     return true;
                 }
                 case PLAN -> {
                     manager.switchShouldPlan();
-                    if (manager.shouldPlan()){
+                    if (manager.shouldPlan()) {
                         System.out.println("The model is on planning mode");
-                    }else{
+                    } else {
                         System.out.println("The model is on normal mode");
                     }
                 }
-                case SAVE_HISTORY ->
-                        System.out.println("Not implemented yet"); // To save the history of the current chat, always on runtime, no db
+                case SAVE_HISTORY -> {
+                    manager.switchShouldSaveChatHistory();
+                    if (manager.shouldSaveChatHistory()) {
+                        System.out.println("The chat history is being saved");
+                    } else {
+                        System.out.println("the chat history stopped being saved");
+                    }
+                }
                 case EXIT -> System.exit(68);
             }
         } else {
@@ -95,13 +102,16 @@ public class Main {
     }
 
     public static void renderResponse(OllamaManager manager, int model, String message) {
-        if (manager.shouldPlan()){
+        if (manager.shouldPlan()) {
             message = "Your task is to produce a plan only — do not execute or answer the request directly.\n" +
                     "Break down the following into clear, actionable steps a person can follow:\n\n" +
                     message;
         }
 
         ModelResponse modelResponse = manager.prompt(model, message);
+        if (manager.shouldSaveChatHistory()){
+            manager.addChatHistory(new ChatHistory(message, modelResponse.response()));
+        }
         manager.renderResponse(modelResponse.response());
     }
 }

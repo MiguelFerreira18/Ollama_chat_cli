@@ -14,14 +14,15 @@ public class OllamaSettings {
         this.url = "http://localhost:" + ollamPort + "/api";
     }
 
-    public static OllamaSettings getInstance(int port){
-      if (ollamaSettings == null){
-          ollamaSettings = new OllamaSettings(port);
-      }
-      return ollamaSettings;
+    public static OllamaSettings getInstance(int port) {
+        if (ollamaSettings == null) {
+            ollamaSettings = new OllamaSettings(port);
+        }
+        return ollamaSettings;
     }
-    public static OllamaSettings getInstance(){
-        if (ollamaSettings == null){
+
+    public static OllamaSettings getInstance() {
+        if (ollamaSettings == null) {
             ollamaSettings = new OllamaSettings();
         }
         return ollamaSettings;

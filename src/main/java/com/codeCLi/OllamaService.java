@@ -19,24 +19,26 @@ public class OllamaService {
         }
     }
 
-    public List<Model> toModels(InputStream stream){
+    public List<Model> toModels(InputStream stream) {
         try {
             JsonNode root = OBJECT_MAPPER.readTree(stream);
-            return OBJECT_MAPPER.convertValue(root.get("models"), new TypeReference<List<Model>>() {});
+            return OBJECT_MAPPER.convertValue(root.get("models"), new TypeReference<List<Model>>() {
+            });
         } catch (JacksonException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public ModelResponse toResponse(String body){
+    public ModelResponse toResponse(String body) {
         try {
-            return OBJECT_MAPPER.readValue(body, new TypeReference<ModelResponse>() {});
-        } catch (JacksonException e ){
+            return OBJECT_MAPPER.readValue(body, new TypeReference<ModelResponse>() {
+            });
+        } catch (JacksonException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public String promptToString(Prompt prompt){
+    public String promptToString(Prompt prompt) {
         return OBJECT_MAPPER.writeValueAsString(prompt);
     }
 
