@@ -36,7 +36,7 @@ pipeline{
                     }
                     def jarFile = sh(script: "ls target/*_shade.jar", returnStdout: true).trim()
                     if(isUnix()){
-                        sh "mv ${jarFile} ${params.INSTALL_PATH}"
+                        sh "sudo mv ${jarFile} ${params.INSTALL_PATH}"
                     }else{
                         bat "move ${jarFile} ${params.INSTALL_PATH}"
                     }
