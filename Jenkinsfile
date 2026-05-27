@@ -34,7 +34,7 @@ pipeline{
                     if(!params.INSTALL_PATH?.trim()){
                         error "INSTALL_PATH parameter is required!"
                     }
-                    def jarFile = sh(script: "ls target/*-shaded.jar", returnStdout: true).trim()
+                    def jarFile = sh(script: "ls target/*_shade.jar", returnStdout: true).trim()
                     if(isUnix()){
                         sh "mv ${jarFile} ${params.INSTALL_PATH}"
                     }else{
