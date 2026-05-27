@@ -24,6 +24,9 @@
             </configuration>
           </execution>
         </executions>
+        <configuration>
+          <finalName>Ollama_chat_tool_shade</finalName>
+        </configuration>
       </plugin>
     </plugins>
   </build>

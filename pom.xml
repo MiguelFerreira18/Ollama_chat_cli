@@ -37,6 +37,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
+                <configuration>
+                    <finalName>Ollama_chat_tool_shade</finalName>
+                </configuration>
                 <version>3.6.0</version>
                 <executions>
                     <execution>
