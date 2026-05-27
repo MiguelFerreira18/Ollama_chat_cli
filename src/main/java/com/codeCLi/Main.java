@@ -7,6 +7,7 @@ public class Main {
     public static Scanner scan;
 
     public static void main(String[] args) {
+        clear();
         scan = new Scanner(System.in);
         int port = 11434;
 
