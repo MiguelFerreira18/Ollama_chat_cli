@@ -10,7 +10,7 @@ pipeline{
     agent any
 
     parameters {
-        string(name: 'INSTALL_PATH', defaultValue: '', description: 'Installation Path')
+        string(name: 'INSTALL_PATH', defaultValue: false, description: 'Installation Path')
     }
 
     tools{
