@@ -13,15 +13,14 @@ instance in an automated way (yes I was using curl before), furthermore, I also 
 I could see were pretty much dull, not only that, but I kinda figured that Java doesn't have JSON parsers in its
 standard library, a shocker from me since I am doing much more stuff in Golang.
 
-Secondly, I like to have my own tooling, it not like I don't trust the open web ui, but I do prefer to have these kinds
+Secondly, I like to have my own tooling, it's not like I don't trust the open web ui, but I do prefer to have these kinds
 of tools under my control, even if they are way more primitive than the latter. This is one of my main motivator to do
 anything, yes, I am reinventing the wheel but at least it's my wheel, if that makes sense.
 
 Thirdly and most importantly, this seemed like a fun little project for me and a way to give another usage for ollama. I
 was simply using it as a code completion tool for
 my [Neovim config](https://github.com/MiguelFerreira18/neovim.config/blob/main/lua/plugins/ollama.lua), with this I can
-easily see my self prompting a model
-that isn't just a coding model.
+easily see my self prompting a model that isn't just a coding model.
 
 ## What can it do
 
@@ -31,7 +30,7 @@ tool, on the other hand, if you are not happy with the model, you can just call 
 another model of your choosing.
 
 Finally, it has a planning command via **/plan**, this injects context into the llm to know that the output should
-always be a plan, if you have a better prompt for this case, i would highly recommend to contribute, as i know the one i
+always be a plan, if you have a better prompt for this case, I would highly recommend to contribute, as I know the one I
 developed is flawed. Moreover, the **/save_history** was also implemented, and limited to 20 messages in total, this was
 done using the deque dst, this was mainly to prevent the context to grow outside its limit, even now, the limit could
 be breached using a malicious prompt.
