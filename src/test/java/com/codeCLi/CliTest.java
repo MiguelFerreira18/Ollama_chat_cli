@@ -16,21 +16,22 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class MainTest {
-
+class CliTest {
     @Mock
     private OllamaManager manager;
 
     @Mock
     private Scanner scanner;
 
+    private Cli cli;
+
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
     @BeforeEach
-    void setUp() {
+    void setUp(){
         System.setOut(new PrintStream(outContent));
-        Main.scan = scanner;
+        cli = new Cli(scanner, manager);
     }
 
     @AfterEach
@@ -40,7 +41,7 @@ class MainTest {
 
     @Test
     void testPrintMenu() {
-        Main.printMenu(manager);
+        cli.printMenu();
         verify(manager).printAvailableModels();
         assertTrue(outContent.toString().contains("(-1) - Return"));
     }
@@ -49,8 +50,8 @@ class MainTest {
     void testSelectModel() {
         when(scanner.nextLine()).thenReturn("0");
         when(manager.getNumberOfModels()).thenReturn(1);
-        
-        int selected = Main.selectModel(manager);
+
+        int selected = cli.selectModel();
         assertEquals(0, selected);
     }
 
@@ -59,7 +60,7 @@ class MainTest {
         when(scanner.nextLine()).thenReturn("Hello");
         when(manager.prompt(anyInt(), anyString())).thenReturn(new ModelResponse("llama2", "Hi"));
 
-        boolean result = Main.inputMessage(manager, 0);
+        boolean result = cli.inputMessage( 0);
         assertFalse(result);
         verify(manager).prompt(eq(0), contains("Hello"));
     }
@@ -69,7 +70,7 @@ class MainTest {
         when(scanner.nextLine()).thenReturn("/plan");
         when(manager.shouldPlan()).thenReturn(true);
 
-        boolean result = Main.inputMessage(manager, 0);
+        boolean result = cli.inputMessage( 0);
         assertFalse(result);
         verify(manager).switchShouldPlan();
         assertTrue(outContent.toString().contains("planning mode"));
@@ -79,8 +80,32 @@ class MainTest {
     void testInputMessageCommandModel() {
         when(scanner.nextLine()).thenReturn("/model");
 
-        boolean result = Main.inputMessage(manager, 0);
+        boolean result = cli.inputMessage( 0);
         assertTrue(result);
         verify(manager).resetDefaults();
+    }
+
+    @Test
+    void testRenderResponse() {
+        when(manager.shouldPlan()).thenReturn(false);
+        when(manager.shouldSaveChatHistory()).thenReturn(false);
+        when(manager.prompt(anyInt(), anyString())).thenReturn(new ModelResponse("llama2", "Response"));
+
+        cli.renderResponse( 0, "Test Message");
+
+        verify(manager).prompt(0, "Test Message");
+        verify(manager).renderResponse("Response");
+    }
+
+    @Test
+    void testRenderResponseWithPlanning() {
+        when(manager.shouldPlan()).thenReturn(true);
+        when(manager.shouldSaveChatHistory()).thenReturn(false);
+        when(manager.prompt(anyInt(), anyString())).thenReturn(new ModelResponse("llama2", "Response"));
+
+        cli.renderResponse( 0, "Test Message");
+
+        verify(manager).prompt(eq(0), contains("planning mode"));
+        verify(manager).renderResponse("Response");
     }
 }
