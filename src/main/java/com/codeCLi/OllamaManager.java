@@ -12,13 +12,20 @@ import java.util.*;
 
 public class OllamaManager {
     private final Map<Integer, Model> models = new HashMap<>();
-    private final OllamaService ollamaService = new OllamaService();
+    private final OllamaService ollamaService;
+    private final HttpClient httpClient;
     private boolean shouldPlan = false;
     private boolean shouldSaveChatHistory = false;
     private final int historyLimit = 20;
     private Deque<ChatHistory> chatHistories = new ArrayDeque<>(historyLimit);
 
     public OllamaManager() {
+        this(HttpClient.newHttpClient(), new OllamaService());
+    }
+
+    public OllamaManager(HttpClient httpClient, OllamaService ollamaService) {
+        this.httpClient = httpClient;
+        this.ollamaService = ollamaService;
         initModels(OllamaSettings.getInstance());
     }
 
@@ -27,11 +34,10 @@ public class OllamaManager {
     }
 
     private void getModels(String url) {
-        HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder(URI.create(url + "/tags")).GET().build();
 
         try {
-            HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
+            HttpResponse<InputStream> response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
             List<Model> models = ollamaService.toModels(response.body());
             mapModels(models);
         } catch (Exception e) {
@@ -56,14 +62,13 @@ public class OllamaManager {
             question = this.getChatHistory() + question;
         }
         Prompt prompt = new Prompt(models.get(model).name(), question, false);
-        HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(OllamaSettings.getInstance().url() + "/generate"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(ollamaService.promptToString(prompt)))
                 .build();
         try {
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             return ollamaService.toResponse(response.body());
         } catch (Exception e) {
             throw new RuntimeException(e);
