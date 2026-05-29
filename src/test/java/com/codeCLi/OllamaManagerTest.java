@@ -1,5 +1,8 @@
 package com.codeCLi;
 
+import com.codeCLi.records.ChatHistory;
+import com.codeCLi.records.Model;
+import com.codeCLi.records.ModelResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,8 +1,10 @@
 package com.codeCLi;
 
-import tools.jackson.core.JsonToken;
+import com.codeCLi.records.ChatHistory;
+import com.codeCLi.records.Model;
+import com.codeCLi.records.ModelResponse;
+import com.codeCLi.records.Prompt;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.http.HttpClient;

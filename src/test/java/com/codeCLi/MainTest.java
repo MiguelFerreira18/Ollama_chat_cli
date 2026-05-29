@@ -1,5 +1,6 @@
 package com.codeCLi;
 
+import com.codeCLi.records.ModelResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,5 +1,8 @@
 package com.codeCLi;
 
+import com.codeCLi.records.Model;
+import com.codeCLi.records.ModelResponse;
+import com.codeCLi.records.Prompt;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.JsonNode;

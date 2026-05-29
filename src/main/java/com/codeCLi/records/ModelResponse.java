@@ -1,4 +1,4 @@
-package com.codeCLi;
+package com.codeCLi.records;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
