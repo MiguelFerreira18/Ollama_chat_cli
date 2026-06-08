@@ -3,9 +3,6 @@ package com.codeCLi;
 import org.commonmark.node.*;
 import org.commonmark.parser.Parser;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class CliRender extends AbstractVisitor {
     private final StringBuilder sb = new StringBuilder();
 

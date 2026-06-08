@@ -13,9 +13,9 @@ instance in an automated way (yes I was using curl before), furthermore, I also 
 I could see were pretty much dull, not only that, but I kinda figured that Java doesn't have JSON parsers in its
 standard library, a shocker from me since I am doing much more stuff in Golang.
 
-Secondly, I like to have my own tooling, it's not like I don't trust the open web ui, but I do prefer to have these kinds
-of tools under my control, even if they are way more primitive than the latter. This is one of my main motivator to do
-anything, yes, I am reinventing the wheel but at least it's my wheel, if that makes sense.
+Secondly, I like to have my own tooling, it's not like I don't trust the open web ui, but I do prefer to have these
+kinds of tools under my control, even if they are way more primitive than the latter. This is one of my main motivator
+to do anything, yes, I am reinventing the wheel but at least it's my wheel, if that makes sense.
 
 Thirdly and most importantly, this seemed like a fun little project for me and a way to give another usage for ollama. I
 was simply using it as a code completion tool for
@@ -41,14 +41,22 @@ meaning that in the new model you select, that chat history and planning mode ar
 
 ## Planned features
 
-integration with Ollama cloud or any other AI API.
+Integration with Ollama cloud or any other AI API.
 
-Finally, I was thinking of giving mcp tools for ollama, but currently it doesn't seem that any llm from Ollama can do
-things like Gemini cli and Claude code do, or I am totally wrong and there are already some. Either way, I am a bit
-skeptical of doing something like this, specifically because of security reasons, yes it's a local model, but nothing
-stops it from doing anything wrong and be totally happy about it. So this will remain as food for thought for now.
+After careful consideration and learning what MCP was, I have come to a conclusion that I was wrong in regard to how
+it worked, meaning that any model can use MCP tools. So this is going to be implemented, the idea is to allow the model
+to create, edit, and delete files/folders in the directory it is being called.
 
-## Architecture (On standby)
+## Architecture
+
+The current architecture looks like this, nothing fancy. I am not including other API's, yet, simply because I have
+other priorities before having outside API's to be used here, in this case, trying to implement MCP tools.
+
+Class diagram of the system
+![Class Diagram](./Docs/ClassDiagram.png)
+
+High level component diagram of the system
+![Component Diagram](./Docs/ComponentDiagram.png)
 
 ## How to run
 
